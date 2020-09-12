@@ -5,8 +5,8 @@
         <el-card>
           <div slot="header">
             订阅转换
-            <svg-icon icon-class="github" style="margin-left: 20px" @click="goToProject" />
-            <svg-icon icon-class="telegram" style="margin-left: 20px" @click="gotoTgChannel" />
+            <!-- <svg-icon icon-class="github" style="margin-left: 20px" @click="goToProject" /> -->
+            <!-- <svg-icon icon-class="telegram" style="margin-left: 20px" @click="gotoTgChannel" /> -->
 
             <div style="display: inline-block; position:absolute; right: 20px">{{ backendVersion }}</div>
           </div>
@@ -30,33 +30,31 @@
                 </el-select>
               </el-form-item>
 
-
-                <el-form-item label="远程配置:">
-                  <el-select
-                    v-model="form.remoteConfig"
-                    allow-create
-                    filterable
-                    placeholder="请选择"
-                    style="width: 100%"
+              <el-form-item label="远程配置:">
+                <el-select
+                  v-model="form.remoteConfig"
+                  allow-create
+                  filterable
+                  placeholder="请选择"
+                  style="width: 100%"
+                >
+                  <el-option-group
+                    v-for="group in options.remoteConfig"
+                    :key="group.label"
+                    :label="group.label"
                   >
-                    <el-option-group
-                      v-for="group in options.remoteConfig"
-                      :key="group.label"
-                      :label="group.label"
-                    >
-                      <el-option
-                        v-for="item in group.options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                      ></el-option>
-                    </el-option-group>
+                    <el-option
+                      v-for="item in group.options"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    ></el-option>
+                  </el-option-group>
                 </el-select>
               </el-form-item>
 
               <el-form-item label="后端地址:">
-
-              <el-select
+                <el-select
                   v-model="form.customBackend"
                   allow-create
                   filterable
@@ -64,14 +62,10 @@
                   style="width: 100%"
                 >
                   <el-option v-for="(v, k) in options.customBackend" :key="k" :label="k" :value="v"></el-option>
-
                 </el-select>
-
               </el-form-item>
 
               <div v-if="advanced === '2'">
-
-
                 <el-form-item label="包含节点:">
                   <el-input v-model="form.includeRemarks" placeholder="节点名包含的关键字，支持正则" />
                 </el-form-item>
@@ -227,19 +221,15 @@
 </template>
 
 <script>
-const project = "https://github.com/ACL4SSR/ACL4SSR";
-const remoteConfigSample =
-  "https://raw.githubusercontent.com/tindy2013/subconverter/master/base/config/example_external_config.ini";
 const gayhubRelease = "https://github.com/tindy2013/subconverter/releases";
 const defaultBackend = "https://api.wcc.best/sub?";
 const shortUrlBackend = "https://api.suo.yt/short";
 const configUploadBackend = "https://api.wcc.best/config/upload";
-const tgBotLink = "https://t.me/ACL4SSR";
 
 export default {
   data() {
     var data = {
-      backendVersion: '',
+      backendVersion: "",
       advanced: "1",
 
       // 是否为 PC 端
@@ -247,8 +237,8 @@ export default {
 
       options: {
         clientTypes: {
-          "Clash新参数": "clash&new_name=true",
-          "ClashR新参数": "clashr&new_name=true",
+          Clash新参数: "clash&new_name=true",
+          ClashR新参数: "clashr&new_name=true",
           Clash: "clash",
           ClashR: "clashr",
           Surge2: "surge&ver=2",
@@ -261,25 +251,24 @@ export default {
           ss: "ss",
           ssr: "ssr",
           ssd: "ssd",
-          v2ray: "v2ray"
+          v2ray: "v2ray",
         },
         customBackend: {
           "localhost:25500 本地版": "http://localhost:25500/sub?",
-          "subcon.py6.pw(subconverter作者提供1)":
-            "https://subcon.py6.pw/sub?",
+          "subcon.py6.pw(subconverter作者提供1)": "https://subcon.py6.pw/sub?",
           "subconverter-web.now.sh(subconverter作者提供2-稳定)":
             "https://subconverter-web.now.sh/sub?",
           "subconverter.herokuapp.com(subconverter作者提供3-稳定)":
             "https://subconverter.herokuapp.com/sub?",
           "api.dler.io(sub作者&lhie1提供-稳定)": "https://api.dler.io/sub?",
-          "api.wcc.best(sub-web作者提供-稳定)": "https://api.wcc.best/sub?"
+          "api.wcc.best(sub-web作者提供-稳定)": "https://api.wcc.best/sub?",
         },
         backendOptions: [
           { value: "http://localhost:25500/sub?" },
           { value: "https://subcon.py6.pw/sub?" },
           { value: "https://subconverter-web.now.sh/sub?" },
           { value: "https://subconverter.herokuapp.com/sub?" },
-          { value: "https://api.wcc.best/sub?" }
+          { value: "https://api.wcc.best/sub?" },
         ],
         remoteConfig: [
           {
@@ -287,119 +276,9 @@ export default {
             options: [
               {
                 label: "不选，由接口提供方提供",
-                value: ""
-              }
-            ]
-          },
-          {
-            label: "ACL4SSR",
-            options: [
-              {
-                label: "ACL4SSR_Online 默认版 分组比较全 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online.ini"
+                value: "",
               },
-              {
-                label: "ACL4SSR_Online_AdblockPlus 更多去广告 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_AdblockPlus.ini"
-              },
-              {
-                label: "ACL4SSR_Online_NoAuto 无自动测速 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_NoAuto.ini"
-              },
-              {
-                label: "ACL4SSR_Online_NoReject 无广告拦截规则 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_NoReject.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Mini 精简版 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Mini_AdblockPlus.ini 精简版 更多去广告 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_AdblockPlus.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Mini_NoAuto.ini 精简版 不带自动测速 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_NoAuto.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Mini_Fallback.ini 精简版 带故障转移 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_Fallback.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Mini_MultiMode.ini 精简版 自动测速、故障转移、负载均衡 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini_MultiMode.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Full 全分组 重度用户使用 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Full_NoAuto.ini 全分组 无自动测速 重度用户使用 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_NoAuto.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Full_AdblockPlus 全分组 重度用户使用 更多去广告 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_AdblockPlus.ini"
-              },
-              {
-                label: "ACL4SSR_Online_Full_Netflix 全分组 重度用户使用 奈飞全量 (与Github同步)",
-                value:
-                  "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full_Netflix.ini"
-              },
-              {
-                label: "ACL4SSR 本地 默认版 分组比较全",
-                value: "config/ACL4SSR.ini"
-              },
-              {
-                label: "ACL4SSR_Mini 本地 精简版",
-                value: "config/ACL4SSR_Mini.ini"
-              },
-              {
-                label: "ACL4SSR_Mini_NoAuto.ini 本地 精简版+无自动测速",
-                value: "config/ACL4SSR_Mini_NoAuto.ini"
-              },
-              {
-                label: "ACL4SSR_Mini_Fallback.ini 本地 精简版+fallback",
-                value: "config/ACL4SSR_Mini_Fallback.ini"
-              },
-              {
-                label: "ACL4SSR_BackCN 本地 回国",
-                value: "config/ACL4SSR_BackCN.ini"
-              },
-              {
-                label: "ACL4SSR_NoApple 本地 无苹果分流",
-                value: "config/ACL4SSR_NoApple.ini"
-              },
-              {
-                label: "ACL4SSR_NoAuto 本地 无自动测速 ",
-                value: "config/ACL4SSR_NoAuto.ini"
-              },
-              {
-                label: "ACL4SSR_NoAuto_NoApple 本地 无自动测速&无苹果分流",
-                value: "config/ACL4SSR_NoAuto_NoApple.ini"
-              },
-              {
-                label: "ACL4SSR_NoMicrosoft 本地 无微软分流",
-                value: "config/ACL4SSR_NoMicrosoft.ini"
-              },
-              {
-                label: "ACL4SSR_WithGFW 本地 GFW列表",
-                value: "config/ACL4SSR_WithGFW.ini"
-              }
-            ]
+            ],
           },
           {
             label: "universal",
@@ -407,14 +286,14 @@ export default {
               {
                 label: "No-Urltest",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/universal/no-urltest.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/universal/no-urltest.ini",
               },
               {
                 label: "Urltest",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/universal/urltest.ini"
-              }
-            ]
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/universal/urltest.ini",
+              },
+            ],
           },
           {
             label: "customized",
@@ -422,77 +301,79 @@ export default {
               {
                 label: "Maying",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/maying.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/maying.ini",
               },
               {
                 label: "rixCloud",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/rixcloud.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/rixcloud.ini",
               },
               {
                 label: "Nirvana",
                 value:
-                  "https://raw.githubusercontent.com/Mazetsz/ACL4SSR/master/Clash/config/V2rayPro.ini"
+                  "https://raw.githubusercontent.com/Mazetsz/ACL4SSR/master/Clash/config/V2rayPro.ini",
               },
               {
                 label: "V2Pro",
                 value:
-                  "https://raw.githubusercontent.com/Mazeorz/airports/master/Clash/V2Pro.ini"
+                  "https://raw.githubusercontent.com/Mazeorz/airports/master/Clash/V2Pro.ini",
               },
               {
                 label: "YoYu",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/yoyu.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/yoyu.ini",
               },
               {
                 label: "Ytoo",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ytoo.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ytoo.ini",
               },
               {
                 label: "NyanCAT",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/nyancat.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/nyancat.ini",
               },
               {
                 label: "Nexitally",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/nexitally.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/nexitally.ini",
               },
               {
                 label: "SoCloud",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/socloud.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/socloud.ini",
               },
               {
                 label: "ARK",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ark.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ark.ini",
               },
               {
                 label: "ssrCloud",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ssrcloud.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/ssrcloud.ini",
               },
               {
                 label: "世葵Auto",
-                value:"https://raw.githubusercontent.com/Mazeorz/airports/master/Clash/SkslaPro-auto.ini"
+                value:
+                  "https://raw.githubusercontent.com/Mazeorz/airports/master/Clash/SkslaPro-auto.ini",
               },
               {
                 label: "世葵Balance",
-                value:"https://raw.githubusercontent.com/Mazeorz/airports/master/Clash/SkslaPro-Balance.ini"
+                value:
+                  "https://raw.githubusercontent.com/Mazeorz/airports/master/Clash/SkslaPro-Balance.ini",
               },
               {
                 label: "贼船",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/zeichuan.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/zeichuan.ini",
               },
               {
                 label: "布丁",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/pud.ini"
-              }
-            ]
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/customized/pud.ini",
+              },
+            ],
           },
           {
             label: "Special",
@@ -500,16 +381,16 @@ export default {
               {
                 label: "NeteaseUnblock(仅规则，No-Urltest)",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/special/netease.ini"
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/special/netease.ini",
               },
               {
                 label: "Basic(仅GEOIP CN + Final)",
                 value:
-                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/special/basic.ini"
-              }
-            ]
-          }
-        ]
+                  "https://subconverter.oss-ap-southeast-1.aliyuncs.com/Rules/RemoteConfig/special/basic.ini",
+              },
+            ],
+          },
+        ],
       },
       form: {
         sourceSubUrl: "",
@@ -534,12 +415,12 @@ export default {
         // tpl 定制功能
         tpl: {
           surge: {
-            doh: false // dns 查询是否使用 DoH
+            doh: false, // dns 查询是否使用 DoH
           },
           clash: {
-            doh: false
-          }
-        }
+            doh: false,
+          },
+        },
       },
 
       loading: false,
@@ -549,8 +430,8 @@ export default {
       dialogUploadConfigVisible: false,
       uploadConfig: "",
       uploadPassword: "",
-      myBot: tgBotLink,
-      sampleConfig: remoteConfigSample
+      // myBot: tgBotLink,
+      sampleConfig: "",
     };
 
     // window.console.log(data.options.remoteConfig);
@@ -579,12 +460,12 @@ export default {
   created() {
     // document.title = "ACL4SSR Subscription Converter";
     document.title = "ACL4SSR 在线订阅转换";
-     this.isPC = this.$getOS().isPc;
+    this.isPC = this.$getOS().isPc;
   },
   mounted() {
     this.form.clientType = "clash&new_name=true";
     this.form.customBackend = "https://subcon.py6.pw/sub?";
-    this.form.remoteConfig = "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online.ini";
+    this.form.remoteConfig = "";
     this.notify();
     this.getBackendVersion();
   },
@@ -592,17 +473,8 @@ export default {
     onCopy() {
       this.$message.success("Copied!");
     },
-    goToProject() {
-      window.open(project);
-    },
-	gotoTgChannel() {
-      window.open(tgBotLink);
-    },
     gotoGayhub() {
       window.open(gayhubRelease);
-    },
-    gotoRemoteConfig() {
-      window.open(remoteConfigSample);
     },
     clashInstall() {
       if (this.customSubUrl === "") {
@@ -647,16 +519,26 @@ export default {
       sourceSub = sourceSub.replace(/(\n|\r|\n\r)/g, "|");
 
       // 薯条屏蔽
-      if (sourceSub.indexOf("losadhwse") !== -1 && (backend.indexOf("py6.pw") !== -1 || backend.indexOf("subconverter-web.now.sh") !== -1 || backend.indexOf("subconverter.herokuapp.com") !== -1 || backend.indexOf("api.wcc.best") !== -1)) {
-        this.$alert('此机场订阅已将该后端屏蔽，请自建后端转换。', '转换错误提示', {
-          confirmButtonText: '确定',
-          callback: action => {
-            this.$message({
-              type: 'error',
-              message: `action: ${ action }`
-            });
+      if (
+        sourceSub.indexOf("losadhwse") !== -1 &&
+        (backend.indexOf("py6.pw") !== -1 ||
+          backend.indexOf("subconverter-web.now.sh") !== -1 ||
+          backend.indexOf("subconverter.herokuapp.com") !== -1 ||
+          backend.indexOf("api.wcc.best") !== -1)
+      ) {
+        this.$alert(
+          "此机场订阅已将该后端屏蔽，请自建后端转换。",
+          "转换错误提示",
+          {
+            confirmButtonText: "确定",
+            callback: (action) => {
+              this.$message({
+                type: "error",
+                message: `action: ${action}`,
+              });
+            },
           }
-        });
+        );
         return false;
       }
 
@@ -733,10 +615,10 @@ export default {
       this.$axios
         .post(shortUrlBackend, data, {
           header: {
-            "Content-Type": "application/form-data; charset=utf-8"
-          }
+            "Content-Type": "application/form-data; charset=utf-8",
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.Code === 1 && res.data.ShortUrl !== "") {
             this.curtomShortSubUrl = res.data.ShortUrl;
             this.$copyText(res.data.ShortUrl);
@@ -762,7 +644,7 @@ export default {
           "i",
           { style: "color: teal" },
           "各种订阅链接（短链接服务除外）生成纯前端实现，无隐私问题。默认提供后端转换服务，隐私担忧者请自行搭建后端服务。"
-        )
+        ),
       });
     },
     confirmUploadConfig() {
@@ -780,10 +662,10 @@ export default {
       this.$axios
         .post(configUploadBackend, data, {
           header: {
-            "Content-Type": "application/form-data; charset=utf-8"
-          }
+            "Content-Type": "application/form-data; charset=utf-8",
+          },
         })
-        .then(res => {
+        .then((res) => {
           if (res.data.Code === 1 && res.data.url !== "") {
             this.$message.success(
               "远程配置上传成功，配置链接已复制到剪贴板，有效期三个月望知悉"
@@ -816,7 +698,7 @@ export default {
       cb(results);
     },
     createFilter(queryString) {
-      return candidate => {
+      return (candidate) => {
         return (
           candidate.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         );
@@ -827,11 +709,11 @@ export default {
         .get(
           defaultBackend.substring(0, defaultBackend.length - 5) + "/version"
         )
-        .then(res => {
+        .then((res) => {
           this.backendVersion = res.data.replace(/backend\n$/gm, "");
           this.backendVersion = this.backendVersion.replace("subconverter", "");
         });
-    }
-  }
+    },
+  },
 };
 </script>
