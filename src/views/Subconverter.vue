@@ -5,10 +5,7 @@
         <el-card>
           <div slot="header">
             订阅转换
-            <!-- <svg-icon icon-class="github" style="margin-left: 20px" @click="goToProject" /> -->
-            <!-- <svg-icon icon-class="telegram" style="margin-left: 20px" @click="gotoTgChannel" /> -->
-
-            <div style="display: inline-block; position:absolute; right: 20px">{{ backendVersion }}</div>
+            <!-- <div style="display: inline-block; position:absolute; right: 20px">{{ backendVersion }}</div> -->
           </div>
           <el-container>
             <el-form :model="form" label-width="120px" label-position="left" style="width: 100%">
@@ -132,7 +129,8 @@
                   >复制</el-button>
                 </el-input>
               </el-form-item>
-              <el-form-item label="订阅短链接:">
+
+              <!-- <el-form-item label="订阅短链接:">
                 <el-input class="copy-content" disabled v-model="curtomShortSubUrl">
                   <el-button
                     slot="append"
@@ -142,7 +140,7 @@
                     icon="el-icon-document-copy"
                   >复制</el-button>
                 </el-input>
-              </el-form-item>
+              </el-form-item> -->
 
               <el-form-item label-width="0px" style="margin-top: 40px; text-align: center">
                 <el-button
@@ -151,24 +149,9 @@
                   @click="makeUrl"
                   :disabled="form.sourceSubUrl.length === 0"
                 >生成订阅链接</el-button>
-                <el-button
-                  style="width: 120px"
-                  type="danger"
-                  @click="makeShortUrl"
-                  :loading="loading"
-                  :disabled="customSubUrl.length === 0"
-                >生成短链接</el-button>
-                <!-- <el-button style="width: 120px" type="primary" @click="surgeInstall" icon="el-icon-connection">一键导入Surge</el-button> -->
               </el-form-item>
 
               <el-form-item label-width="0px" style="text-align: center">
-                <el-button
-                  style="width: 120px"
-                  type="primary"
-                  @click="dialogUploadConfigVisible = true"
-                  icon="el-icon-upload"
-                  :loading="loading"
-                >上传配置</el-button>
                 <el-button
                   style="width: 120px"
                   type="primary"
@@ -182,54 +165,18 @@
         </el-card>
       </el-col>
     </el-row>
-
-    <el-dialog
-      :visible.sync="dialogUploadConfigVisible"
-      :show-close="false"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      width="700px"
-    >
-      <div slot="title">
-        Remote config upload
-        <el-popover trigger="hover" placement="right" style="margin-left: 10px">
-          <el-link type="primary" :href="sampleConfig" target="_blank" icon="el-icon-info">参考配置</el-link>
-          <i class="el-icon-question" slot="reference"></i>
-        </el-popover>
-      </div>
-      <el-form label-position="left">
-        <el-form-item prop="uploadConfig">
-          <el-input
-            v-model="uploadConfig"
-            type="textarea"
-            :autosize="{ minRows: 15, maxRows: 15}"
-            maxlength="10000"
-            show-word-limit
-          ></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="uploadConfig = ''; dialogUploadConfigVisible = false">取 消</el-button>
-        <el-button
-          type="primary"
-          @click="confirmUploadConfig"
-          :disabled="uploadConfig.length === 0"
-        >确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-const gayhubRelease = "https://github.com/tindy2013/subconverter/releases";
-const defaultBackend = "https://api.wcc.best/sub?";
-const shortUrlBackend = "https://api.suo.yt/short";
-const configUploadBackend = "https://api.wcc.best/config/upload";
+const defaultBackend = "https://doge.warwolfteam.cn/sub?";
+// const defaultBackend = "https://api.wcc.best/sub?";
+// const configUploadBackend = "https://api.wcc.best/config/upload";
 
 export default {
   data() {
     var data = {
-      backendVersion: "",
+      // backendVersion: "",
       advanced: "1",
 
       // 是否为 PC 端
@@ -255,20 +202,11 @@ export default {
         },
         customBackend: {
           "localhost:25500 本地版": "http://localhost:25500/sub?",
-          "subcon.py6.pw(subconverter作者提供1)": "https://subcon.py6.pw/sub?",
-          "subconverter-web.now.sh(subconverter作者提供2-稳定)":
-            "https://subconverter-web.now.sh/sub?",
-          "subconverter.herokuapp.com(subconverter作者提供3-稳定)":
-            "https://subconverter.herokuapp.com/sub?",
-          "api.dler.io(sub作者&lhie1提供-稳定)": "https://api.dler.io/sub?",
-          "api.wcc.best(sub-web作者提供-稳定)": "https://api.wcc.best/sub?",
+          "本站": "https://doge.warwolfteam.cn/sub?",
         },
         backendOptions: [
           { value: "http://localhost:25500/sub?" },
-          { value: "https://subcon.py6.pw/sub?" },
-          { value: "https://subconverter-web.now.sh/sub?" },
-          { value: "https://subconverter.herokuapp.com/sub?" },
-          { value: "https://api.wcc.best/sub?" },
+          { value: "https://doge.warwolfteam.cn/sub?" },
         ],
         remoteConfig: [
           {
@@ -464,17 +402,14 @@ export default {
   },
   mounted() {
     this.form.clientType = "clash&new_name=true";
-    this.form.customBackend = "https://subcon.py6.pw/sub?";
+    this.form.customBackend = "https://doge.warwolfteam.cn/sub?";
     this.form.remoteConfig = "";
     this.notify();
-    this.getBackendVersion();
+    // this.getBackendVersion();
   },
   methods: {
     onCopy() {
       this.$message.success("Copied!");
-    },
-    gotoGayhub() {
-      window.open(gayhubRelease);
     },
     clashInstall() {
       if (this.customSubUrl === "") {
@@ -601,39 +536,6 @@ export default {
       this.$copyText(this.customSubUrl);
       this.$message.success("定制订阅已复制到剪贴板");
     },
-    makeShortUrl() {
-      if (this.customSubUrl === "") {
-        this.$message.warning("请先生成订阅链接，再获取对应短链接");
-        return false;
-      }
-
-      this.loading = true;
-
-      let data = new FormData();
-      data.append("longUrl", btoa(this.customSubUrl));
-
-      this.$axios
-        .post(shortUrlBackend, data, {
-          header: {
-            "Content-Type": "application/form-data; charset=utf-8",
-          },
-        })
-        .then((res) => {
-          if (res.data.Code === 1 && res.data.ShortUrl !== "") {
-            this.curtomShortSubUrl = res.data.ShortUrl;
-            this.$copyText(res.data.ShortUrl);
-            this.$message.success("短链接已复制到剪贴板");
-          } else {
-            this.$message.error("短链接获取失败：" + res.data.Message);
-          }
-        })
-        .catch(() => {
-          this.$message.error("短链接获取失败");
-        })
-        .finally(() => {
-          this.loading = false;
-        });
-    },
     notify() {
       const h = this.$createElement;
 
@@ -646,46 +548,6 @@ export default {
           "各种订阅链接（短链接服务除外）生成纯前端实现，无隐私问题。默认提供后端转换服务，隐私担忧者请自行搭建后端服务。"
         ),
       });
-    },
-    confirmUploadConfig() {
-      if (this.uploadConfig === "") {
-        this.$message.warning("远程配置不能为空");
-        return false;
-      }
-
-      this.loading = true;
-
-      let data = new FormData();
-      data.append("password", this.uploadPassword);
-      data.append("config", this.uploadConfig);
-
-      this.$axios
-        .post(configUploadBackend, data, {
-          header: {
-            "Content-Type": "application/form-data; charset=utf-8",
-          },
-        })
-        .then((res) => {
-          if (res.data.Code === 1 && res.data.url !== "") {
-            this.$message.success(
-              "远程配置上传成功，配置链接已复制到剪贴板，有效期三个月望知悉"
-            );
-
-            // 自动填充至『表单-远程配置』
-            this.form.remoteConfig = res.data.Url;
-            this.$copyText(this.form.remoteConfig);
-
-            this.dialogUploadConfigVisible = false;
-          } else {
-            this.$message.error("远程配置上传失败：" + res.data.Message);
-          }
-        })
-        .catch(() => {
-          this.$message.error("远程配置上传失败");
-        })
-        .finally(() => {
-          this.loading = false;
-        });
     },
     backendSearch(queryString, cb) {
       let backends = this.options.backendOptions;
@@ -704,16 +566,16 @@ export default {
         );
       };
     },
-    getBackendVersion() {
-      this.$axios
-        .get(
-          defaultBackend.substring(0, defaultBackend.length - 5) + "/version"
-        )
-        .then((res) => {
-          this.backendVersion = res.data.replace(/backend\n$/gm, "");
-          this.backendVersion = this.backendVersion.replace("subconverter", "");
-        });
-    },
+    // getBackendVersion() {
+    //   this.$axios
+    //     .get(
+    //       defaultBackend.substring(0, defaultBackend.length - 5) + "/version"
+    //     )
+    //     .then((res) => {
+    //       this.backendVersion = res.data.replace(/backend\n$/gm, "");
+    //       this.backendVersion = this.backendVersion.replace("subconverter", "");
+    //     });
+    // },
   },
 };
 </script>
