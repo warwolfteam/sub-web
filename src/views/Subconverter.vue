@@ -203,10 +203,13 @@ export default {
         customBackend: {
           "localhost:25500 本地版": "http://localhost:25500/sub?",
           "本站": "https://doge.warwolfteam.cn/sub?",
+          "其他": "https://sub.bianyuan.xyz/sub?",
+          
         },
         backendOptions: [
           { value: "http://localhost:25500/sub?" },
           { value: "https://doge.warwolfteam.cn/sub?" },
+          { value: "https://sub.bianyuan.xyz/sub?" },
         ],
         remoteConfig: [
           {
@@ -397,7 +400,7 @@ export default {
   },
   created() {
     // document.title = "ACL4SSR Subscription Converter";
-    document.title = "ACL4SSR 在线订阅转换";
+    document.title = "黑猫家 在线订阅转换";
     this.isPC = this.$getOS().isPc;
   },
   mounted() {
